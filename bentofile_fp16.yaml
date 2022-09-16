@@ -1,0 +1,14 @@
+service: "service_fp16.py:svc"
+include:
+  - "service_fp16.py"
+  - "requirements.txt"
+  - "models/v1_4_fp16"
+python:
+  packages:
+    - torch
+    - transformers
+    - diffusers
+    - ftfy
+docker:
+    distro: debian
+    cuda_version: "11.6.2"

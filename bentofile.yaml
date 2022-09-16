@@ -1,0 +1,14 @@
+service: "service.py:svc"
+include:
+  - "service.py"
+  - "requirements.txt"
+  - "models/v1_4"
+python:
+  packages:
+    - torch
+    - transformers
+    - diffusers
+    - ftfy
+docker:
+    distro: debian
+    cuda_version: "11.6.2"
