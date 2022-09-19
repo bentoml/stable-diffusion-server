@@ -34,5 +34,5 @@ stable_diffusion_runner = bentoml.Runner(StableDiffusionRunnable, max_batch_size
 svc = bentoml.Service("stable_diffusion_demo", runners=[stable_diffusion_runner])
 
 @svc.api(input=JSON(), output=Image())
-def render(input_data):
+def txt2img(input_data):
     return stable_diffusion_runner.run(input_data)
