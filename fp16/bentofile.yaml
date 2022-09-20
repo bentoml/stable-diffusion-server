@@ -1,6 +1,6 @@
-service: "service_fp16.py:svc"
+service: "service.py:svc"
 include:
-  - "service_fp16.py"
+  - "service.py"
   - "requirements.txt"
   - "models/v1_4_fp16"
 python:
