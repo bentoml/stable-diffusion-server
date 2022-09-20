@@ -1,0 +1,10 @@
+api_version: v1
+name: stable-diffusion
+operator:
+  name: aws-ec2
+template: terraform
+spec:
+  region: us-west-1
+  instance_type: g4dn.2xlarge
+  ami_id: ami-0a85a3a3fb34b3c7f
+  enable_gpus: true

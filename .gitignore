@@ -120,3 +120,9 @@ models/*/*
 
 # output
 output.jpg
+
+ec2_infra/.terraform/
+ec2_infra/.terraform.lock.hcl
+ec2_infra/bentoctl.tfvars
+ec2_infra/terraform.tfstate
+ec2_infra/terraform.tfstate.backup
