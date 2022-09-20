@@ -49,7 +49,7 @@ class StableDiffusionRunnable(bentoml.Runnable):
     @bentoml.Runnable.method(batchable=False, batch_dim=0)
     def img2img(self, init_image, data):
         prompt = data["prompt"]
-        strength = data.get('strength', 0.5)
+        strength = data.get('strength', 0.8)
         guidance_scale = data.get('guidance_scale', 7.5)
         num_inference_steps = data.get('num_inference_steps', 50)
         with autocast(self.device):
