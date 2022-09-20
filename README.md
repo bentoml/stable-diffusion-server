@@ -62,3 +62,22 @@ todo
 	```
 	bentoml build -f bentofile_fp16.yaml
 	```
+## Deploy with EC2
+
+We will be using [bentoctl](https://github.com/bentoml/bentoctl) to deploy the bento to EC2. If you want a bit more background on bentoctl check out the [quickstart](https://github.com/bentoml/bentoctl/blob/main/docs/quickstart.md) but everything you need to deploy stable diffusion is mentioned.
+
+1. Generate terraform files
+```bash
+cd bentoctl
+bentoctl generate
+```
+
+2. build the docker image for deploying to EC2. After the docker build is complete this will also push the image into your ECR registry.
+```bash
+bentoctl build -b stable_diffusion_demo:latest
+```
+
+3. Apply the changes
+```bash
+bentoctl apply
+```
