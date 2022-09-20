@@ -10,7 +10,7 @@ todo
 
 	```
 	pip install huggingface_hub
-	hugginface-cli login
+	huggingface-cli login
 	```
 
 2. clone this repository and install dependencies:
