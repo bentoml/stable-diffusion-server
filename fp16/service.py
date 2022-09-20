@@ -36,11 +36,11 @@ class StableDiffusionRunnable(bentoml.Runnable):
         num_inference_steps = input_data.get('num_inference_steps', 50)
         with autocast(self.device):
             images = self.txt2img_pipe(
-                prompt,
-                guidance_scale,
-                height,
-                width,
-                num_inference_steps,
+                prompt=prompt,
+                guidance_scale=guidance_scale,
+                height=height,
+                width=width,
+                num_inference_steps=num_inference_steps,
             ).images
             image = images[0]
             return image
@@ -49,16 +49,16 @@ class StableDiffusionRunnable(bentoml.Runnable):
     @bentoml.Runnable.method(batchable=False, batch_dim=0)
     def img2img(self, init_image, data):
         prompt = data["prompt"]
-        strenth = data.get('strength', 0.5)
+        strength = data.get('strength', 0.5)
         guidance_scale = data.get('guidance_scale', 7.5)
         num_inference_steps = data.get('num_inference_steps', 50)
         with autocast(self.device):
             images = self.img2img_pipe(
-                prompt,
-                init_image,
-                strength,
-                guidance_scale,
-                num_inference_steps,
+                prompt=prompt,
+                init_image=init_image,
+                strength=strength,
+                guidance_scale=guidance_scale,
+                num_inference_steps=num_inference_steps,
             ).images
             image = images[0]
             return image
