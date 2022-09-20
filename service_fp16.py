@@ -6,7 +6,7 @@ from diffusers import StableDiffusionImg2ImgPipeline
 import bentoml
 from bentoml.io import Image, JSON, Multipart
 
-class stablediffusionrunnable(bentoml.Runnable):
+class StableDiffusionRunnable(bentoml.Runnable):
     SUPPORTED_RESOURCES = ("nvidia.com/gpu", )
     SUPPORTS_CPU_MULTI_THREADING = True
 
@@ -64,7 +64,7 @@ class stablediffusionrunnable(bentoml.Runnable):
             return image
 
 
-stable_diffusion_runner = bentoml.Runner(stablediffusionrunnable, max_batch_size=10)
+stable_diffusion_runner = bentoml.Runner(StableDiffusionRunnable, name='stablediffusionrunner', max_batch_size=10)
 
 svc = bentoml.Service("stable_diffusion_demo_fp16", runners=[stable_diffusion_runner])
 
