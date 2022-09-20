@@ -116,7 +116,9 @@ typings
 catboost_info
 
 # models
-models/*/*
+*/models/*/*
+*/*.zip
+*/*.tgz
 
 # output
 output.jpg
