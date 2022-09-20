@@ -1,3 +1,8 @@
+<p align="center">
+  <h1 align="center">Stable Diffusion Bento</h1>
+  <img src="https://user-images.githubusercontent.com/5261489/191204712-a3807af2-948e-46ca-b1bb-acdc7ca0ca07.png" alt="stable diffusion examples"/>
+</p>
+
 # todo
 
 ## use pre-made bento
