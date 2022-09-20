@@ -38,20 +38,20 @@ todo
 
 	```
 	# if tar and gzip is availabe
-	curl url | tar zxf - -C models/
+	curl https://s3.us-west-2.amazonaws.com/bentoml.com/stable_diffusion_bentoml/sd_model_v1_4.tgz | tar zxf - -C models/
 
 	# or if unzip is availabe
-	curl -O url && unzip -d models/ sd_model_v1_4.zip
+	curl -O https://s3.us-west-2.amazonaws.com/bentoml.com/stable_diffusion_bentoml/sd_model_v1_4.zip && unzip -d models/ sd_model_v1_4.zip
 	```
 
 	for fp16 model:
 
 	```
 	# if tar and gzip is availabe
-	curl url | tar zxf - -C models/
+	curl https://s3.us-west-2.amazonaws.com/bentoml.com/stable_diffusion_bentoml/sd_model_v1_4_fp16.tgz | tar zxf - -C models/
 
 	# or if unzip is availabe
-	curl -O url && unzip -d models/ sd_model_v1_4_fp16.zip
+	curl -O https://s3.us-west-2.amazonaws.com/bentoml.com/stable_diffusion_bentoml/sd_model_v1_4_fp16.zip && unzip -d models/ sd_model_v1_4_fp16.zip
 	```
 
 4. run and test BentoML server:
