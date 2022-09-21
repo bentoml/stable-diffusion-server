@@ -7,5 +7,5 @@ spec:
   region: us-west-1
   instance_type: g4dn.2xlarge
   # points to Deep Learning AMI GPU PyTorch 1.12.0 (Ubuntu 20.04) 20220913 AMI
-  ami_id: ami-0beb8b2cc8e565fdd
+  ami_id: ami-0a85a3a3fb34b3c7f
   enable_gpus: true
