@@ -128,3 +128,4 @@ output.jpg
 */bentoctl.tfvars
 */terraform.tfstate*
 */startup_script.sh
+*/main.tf
