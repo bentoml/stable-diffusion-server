@@ -57,7 +57,7 @@ todo
 4. run and test BentoML server:
 
 	```
-	bentoml serve service:svc --production
+	BENTO_CONFIG=configuration.yaml bentoml serve service:svc --production
 	```
 
 	Then you can run `../txt2img_test.sh` and `../img2img_test.sh` to test the server

@@ -3,6 +3,7 @@ include:
   - "service.py"
   - "requirements.txt"
   - "models/v1_4_fp16"
+  - "configuration.yaml"
 python:
   packages:
     - torch
@@ -12,3 +13,5 @@ python:
 docker:
     distro: debian
     cuda_version: "11.6.2"
+    env:
+      BENTOML_CONFIG: "configuration.yaml"
