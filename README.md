@@ -111,9 +111,18 @@ We will be using [bentoctl](https://github.com/bentoml/bentoctl) to deploy the b
 bentoctl operator install aws-ec2
 ```
 
-The deployment has already been configured for you in ./bentoctl/deployment_config.yaml file. By default bentoctl is configured to deploy the model on a [g4dn.2xlarge](https://aws.amazon.com/ec2/instance-types/g4/) instance with *Deep Learning AMI GPU PyTorch 1.12.0 (Ubuntu 20.04) AMI* on `us-west-1`.
+The deployment has already been configured for you in the [deployment_config.yaml](https://github.com/bentoml/stable-diffusion-bentoml/blob/main/bentoctl/deployment_config.yaml) file. By default bentoctl is configured to deploy the model on a [g4dn.2xlarge](https://aws.amazon.com/ec2/instance-types/g4/) instance with *Deep Learning AMI GPU PyTorch 1.12.0 (Ubuntu 20.04) AMI* on `us-west-1`.
 
 > Note: This default configuration only works in the us-west-1 region. Choose the corresponding AMI Id in your region from [AWS AMI Catalog](https://console.aws.amazon.com/ec2/home#AMICatalog) to deploy to your desired region.
+
+Generate the Terraform files.
+```bash
+bentoctl generate -f deployment_config.yaml
+
+✨ generated template files.
+  - ./main.tf
+  - ./bentoctl.tfvars
+```
 
 
 Build the Docker image and push to AWS ECR.
