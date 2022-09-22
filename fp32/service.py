@@ -39,7 +39,6 @@ class StableDiffusionRunnable(bentoml.Runnable):
         num_inference_steps = input_data.get('num_inference_steps', 50)
 
         with ExitStack() as stack:
-
             if self.device != "cpu":
                 _ = stack.enter_context(autocast(self.device))
 
@@ -55,13 +54,22 @@ class StableDiffusionRunnable(bentoml.Runnable):
 
     @bentoml.Runnable.method(batchable=False, batch_dim=0)
     def img2img(self, init_image, data):
+        new_size = None
+        longer_side = max(*init_image.size)
+        if longer_side > 512:
+            new_size = (512, 512)
+        elif init_image.width != init_image.height:
+            new_size = (longer_side, longer_side)
+
+        if new_size:
+            init_image =init_image.resize(new_size)
+
         prompt = data["prompt"]
         strength = data.get('strength', 0.8)
         guidance_scale = data.get('guidance_scale', 7.5)
         num_inference_steps = data.get('num_inference_steps', 50)
 
         with ExitStack() as stack:
-
             if self.device != "cpu":
                 _ = stack.enter_context(autocast(self.device))
 
