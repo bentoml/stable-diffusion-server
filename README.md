@@ -1,17 +1,17 @@
+# Serving Stable Diffusion on BentoML
+
 <p align="center">
-  <h1 align="center">Stable Diffusion Bento</h1>
   <img src="https://user-images.githubusercontent.com/5261489/191204712-a3807af2-948e-46ca-b1bb-acdc7ca0ca07.png" alt="stable diffusion examples"/>
 </p>
 
-# todo
+## Build the Stable Diffusion Bento
 
-## use pre-made bento
+If you don't wish to build the bento from scratch, feel free to download one of the pre-built bentos.
 
-todo
+- stable-diffusion-fp32
+- stable-diffusion-fp16
 
-## build bento yourself
-
-1. clone this repository and install dependencies:
+1. Clone repository and install dependencies:
 
 	```
 	git clone https://github.com/bentoml/stable-diffusion-bentoml.git && cd stable-diffusion-bentoml
@@ -20,21 +20,23 @@ todo
 	pip install -r requirements.txt
 	```
 
-2. select fp32 (for GPU card with more than 10GB VRAM or CPU only) or fp16 (for GPU card with less than 10GB VRAM)
+2. Choose a Stable Diffusion model
+
+- fp32 (for CPU or GPU with more than 10GB VRAM)
 
 	```
 	cd fp32/
 	```
 
-	or for fp16
+- fp16 (for GPU with less than 10GB VRAM)
 
 	```
 	cd fp16/
 	```
 
-3. download stable diffusion model:
+3. Download the Stable Diffusion model
 
-	for fp32 model:
+- For fp32 model:
 
 	```
 	# if tar and gzip is availabe
@@ -44,7 +46,7 @@ todo
 	curl -O https://s3.us-west-2.amazonaws.com/bentoml.com/stable_diffusion_bentoml/sd_model_v1_4.zip && unzip -d models/ sd_model_v1_4.zip
 	```
 
-	for fp16 model:
+- For fp16 model:
 
 	```
 	# if tar and gzip is availabe
@@ -54,19 +56,27 @@ todo
 	curl -O https://s3.us-west-2.amazonaws.com/bentoml.com/stable_diffusion_bentoml/sd_model_v1_4_fp16.zip && unzip -d models/ sd_model_v1_4_fp16.zip
 	```
 
-4. run and test BentoML server:
+4. Run and test the BentoML service:
+
+Bring up the BentoML service with the following command.
 
 	```
 	BENTO_CONFIG=configuration.yaml bentoml serve service:svc --production
 	```
 
-	Then you can run `../txt2img_test.sh` and `../img2img_test.sh` to test the server
+Then you can run one of the scripts to test the service.
+
+	```
+	../txt2img_test.sh
+	../img2img_test.sh
+	```
 
 5. Build a bento:
 
 	```
 	bentoml build
 	```
+
 
 ## Deploy to EC2
 
