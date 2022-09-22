@@ -5,14 +5,36 @@
 </p>
 
 
-## Build the Stable Diffusion Bento
+## Download and Serve the Pre-built Stable Diffusion Bento
 
 If you don't wish to build the bento from scratch, feel free to download one of the pre-built bentos.
 
-- stable-diffusion-fp32
-- stable-diffusion-fp16
+Clone repository and install dependencies:
+
+	```bash
+	git clone https://github.com/bentoml/stable-diffusion-bentoml.git && cd stable-diffusion-bentoml
+	python3 -m venv venv && . venv/bin/activate
+	pip install -U pip
+	pip install -r requirements.txt
+	```
+
+- download fp32 bento (for CPU or GPU with more than 10GB VRAM)
+
+  ```bash
+  curl -O https://s3.us-west-2.amazonaws.com/bentoml.com/stable_diffusion_bentoml/sd_fp32.bento && bentoml import ./sd_fp32.bento
+  ```
+
+- download fp16 bento (for GPU with less than 10GB VRAM)
+
+  ```bash
+  curl -O https://s3.us-west-2.amazonaws.com/bentoml.com/stable_diffusion_bentoml/sd_fp16.bento && bentoml import ./sd_fp16.bento
+  ```
+
+Then you can jump to "Deploy the Stable Diffusion Bento to EC2" section and deploy the pre-built bento to an EC2 instance.
 
 Else, follow the steps below to build the Stable Diffusion bentos.
+
+## Build the Stable Diffusion Bento
 
 Clone repository and install dependencies:
 
