@@ -1,8 +1,9 @@
 # Serving Stable Diffusion on BentoML
 
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/5261489/191204712-a3807af2-948e-46ca-b1bb-acdc7ca0ca07.png" alt="stable diffusion examples"/>
+  <img src="https://user-images.githubusercontent.com/861225/191730233-e0786728-0a35-4244-b196-d176a48499e9.png" alt="stable diffusion examples"/>
 </p>
+
 
 ## Build the Stable Diffusion Bento
 
@@ -13,34 +14,34 @@ If you don't wish to build the bento from scratch, feel free to download one of 
 
 Else, follow the steps below to build the Stable Diffusion bentos.
 
-1. Clone repository and install dependencies:
+Clone repository and install dependencies:
 
-	```
+	```bash
 	git clone https://github.com/bentoml/stable-diffusion-bentoml.git && cd stable-diffusion-bentoml
 	python3 -m venv venv && . venv/bin/activate
 	pip install -U pip
 	pip install -r requirements.txt
 	```
 
-2. Choose a Stable Diffusion model
+Choose a Stable Diffusion model
 
 - fp32 (for CPU or GPU with more than 10GB VRAM)
 
-	```
+	```bash
 	cd fp32/
 	```
 
 - fp16 (for GPU with less than 10GB VRAM)
 
-	```
+	```bash
 	cd fp16/
 	```
 
-3. Download the Stable Diffusion model
+Download the Stable Diffusion model
 
 - For fp32 model:
 
-	```
+	```bash
 	# if tar and gzip is availabe
 	curl https://s3.us-west-2.amazonaws.com/bentoml.com/stable_diffusion_bentoml/sd_model_v1_4.tgz | tar zxf - -C models/
 
@@ -50,7 +51,7 @@ Else, follow the steps below to build the Stable Diffusion bentos.
 
 - For fp16 model:
 
-	```
+	```bash
 	# if tar and gzip is availabe
 	curl https://s3.us-west-2.amazonaws.com/bentoml.com/stable_diffusion_bentoml/sd_model_v1_4_fp16.tgz | tar zxf - -C models/
 
@@ -58,49 +59,54 @@ Else, follow the steps below to build the Stable Diffusion bentos.
 	curl -O https://s3.us-west-2.amazonaws.com/bentoml.com/stable_diffusion_bentoml/sd_model_v1_4_fp16.zip && unzip -d models/ sd_model_v1_4_fp16.zip
 	```
 
-4. Run and test the BentoML service:
+Run and test the BentoML service:
 
-Bring up the BentoML service with the following command.
+- Bring up the BentoML service with the following command.
 
-	```
+	```bash
 	BENTO_CONFIG=configuration.yaml bentoml serve service:svc --production
 	```
 
-Then you can run one of the scripts to test the service.
+- Then you can run one of the scripts to test the service.
 
-	```
+	```bash
 	../txt2img_test.sh
 	../img2img_test.sh
 	```
 
-5. Build a bento:
+Build a bento:
 
-	```
-	bentoml build
-	```
+```bash
+bentoml build
+```
 
 
-## Deploy to EC2
+## Deploy the Stable Diffusion Bento to EC2
 
-We will be using [bentoctl](https://github.com/bentoml/bentoctl) to deploy the bento to EC2. Bentoctl helps deploy your bentos into any cloud platform easily. It creates and configures the terraform files to deploy into the cloud platform. If you want a bit more background on bentoctl check out the [quickstart](https://github.com/bentoml/bentoctl/blob/main/docs/quickstart.md). Follow the steps to deploy the stable-diffusion model into EC2.
+We will be using [bentoctl](https://github.com/bentoml/bentoctl) to deploy the bento to EC2. bentoctl helps deploy your bentos into any cloud platform easily. Install the AWS EC2 operator to generate and apply Terraform files to EC2.
 
-1. Generate Terraform Files: The deployment has already been configured for you in ./bentoctl/deployment_config.yaml file. By default bentoctl is configured to deploy the model on a [g4dn.2xlarge](https://aws.amazon.com/ec2/instance-types/g4/) instance with *Deep Learning AMI GPU PyTorch 1.12.0 (Ubuntu 20.04) AMI* on us-west-1.
+```
+bentoctl operator install aws-ec2
+```
+
+The deployment has already been configured for you in ./bentoctl/deployment_config.yaml file. By default bentoctl is configured to deploy the model on a [g4dn.2xlarge](https://aws.amazon.com/ec2/instance-types/g4/) instance with *Deep Learning AMI GPU PyTorch 1.12.0 (Ubuntu 20.04) AMI* on `us-west-1`.
 
 > Note: This default configuration only works in the us-west-1 region. Choose the corresponding AMI Id in your region from [AWS AMI Catalog](https://console.aws.amazon.com/ec2/home#AMICatalog) to deploy to your desired region.
 
+
+Build the Docker image and push to AWS ECR.
 ```bash
-cd bentoctl
-bentoctl generate
+bentoctl build -b stable_diffusion_fp32:latest
 ```
 
-2. Build Docker Image: Will containerize the bento and push it into the default ECR for the region
+Apply the Terraform files to deploy to AWS EC2. Head over to the endpoint URL displayed at the end and you can see your Stable Diffusion service is up and running. Run some test prompts to make sure everything is working.
+
 ```bash
-bentoctl build -b stable_diffusion_demo:latest
+bentoctl apply -f deployment_config.yaml
 ```
 
-3. Apply the Terraform Files: will install the required terraform providers and modules and run `terraform plan` and `terraform apply` command on your behalf. It might take a while for all the resources to be created, a nice oppertunity to get some coffee :).
-```bash
-bentoctl apply
-```
+Finally, delete the deployment if the Stable Diffusion BentoML service is no longer needed.
 
-4. Head over to the endpoint URL displayed at the end and you can see your stable diffusion service up and running. Run some test prompts to make sure everything is working.
+```bash
+bentoctl destroy -f deployment_config.yaml
+```
