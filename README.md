@@ -1,8 +1,10 @@
-# Serving Stable Diffusion on BentoML
+# Serving Stable Diffusion with BentoML
 
 <p align="center">
   <img src="https://user-images.githubusercontent.com/861225/191730233-e0786728-0a35-4244-b196-d176a48499e9.png" alt="stable diffusion examples"/>
 </p>
+
+[Stable Diffusion](https://stability.ai/blog/stable-diffusion-public-release) is an open-source text-to-image model released by stability.ai. It enables you to generate creative arts from natural language prompts in just seconds. Follow the steps in this repository to create a production-ready Stable Diffusion service with BentoML and deploy it to AWS EC2.
 
 
 ## Download and Serve the Pre-built Stable Diffusion Bento
