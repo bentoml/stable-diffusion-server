@@ -61,20 +61,24 @@ Download the Stable Diffusion model
 
 Run and test the BentoML service:
 
-	Bring up the BentoML service with the following command.
+- Bring up the BentoML service with the following command.
 
-		BENTO_CONFIG=configuration.yaml bentoml serve service:svc --production
+	```bash
+	BENTO_CONFIG=configuration.yaml bentoml serve service:svc --production
+	```
 
-	Then you can run one of the scripts to test the service.
+- Then you can run one of the scripts to test the service.
 
-		../txt2img_test.sh
-		../img2img_test.sh
+	```bash
+	../txt2img_test.sh
+	../img2img_test.sh
+	```
 
 Build a bento:
 
-	```bash
-	bentoml build
-	```
+```bash
+bentoml build
+```
 
 
 ## Deploy the Stable Diffusion Bento to EC2
@@ -89,21 +93,16 @@ The deployment has already been configured for you in ./bentoctl/deployment_conf
 
 > Note: This default configuration only works in the us-west-1 region. Choose the corresponding AMI Id in your region from [AWS AMI Catalog](https://console.aws.amazon.com/ec2/home#AMICatalog) to deploy to your desired region.
 
-```bash
-cd bentoctl
-bentoctl generate
-```
-
 
 Build the Docker image and push to AWS ECR.
 ```bash
-bentoctl build -b stable_diffusion_demo:latest
+bentoctl build -b stable_diffusion_fp32:latest
 ```
 
 Apply the Terraform files to deploy to AWS EC2. Head over to the endpoint URL displayed at the end and you can see your Stable Diffusion service is up and running. Run some test prompts to make sure everything is working.
 
 ```bash
-bentoctl apply
+bentoctl apply -f deployment_config.yaml
 ```
 
 Finally, delete the deployment if the Stable Diffusion BentoML service is no longer needed.
