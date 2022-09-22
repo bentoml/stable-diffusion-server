@@ -11,6 +11,8 @@ If you don't wish to build the bento from scratch, feel free to download one of 
 - stable-diffusion-fp32
 - stable-diffusion-fp16
 
+Else, follow the steps below to build the Stable Diffusion bentos.
+
 1. Clone repository and install dependencies:
 
 	```
