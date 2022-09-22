@@ -76,9 +76,9 @@ class StableDiffusionRunnable(bentoml.Runnable):
             return image
 
 
-stable_diffusion_runner = bentoml.Runner(StableDiffusionRunnable, name='stablediffusionrunner', max_batch_size=10)
+stable_diffusion_runner = bentoml.Runner(StableDiffusionRunnable, name='stable_diffusion_runner', max_batch_size=10)
 
-svc = bentoml.Service("stable_diffusion_demo", runners=[stable_diffusion_runner])
+svc = bentoml.Service("stable_diffusion_fp32", runners=[stable_diffusion_runner])
 
 @svc.api(input=JSON(), output=Image())
 def txt2img(input_data):
