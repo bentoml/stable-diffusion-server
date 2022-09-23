@@ -28,13 +28,13 @@ Here you can choose to either download pre-built Stable Diffusion bentos or buil
 
 ### Download Pre-built Stable Diffusion Bentos
 
-- download fp32 bento (for CPU or GPU with more than 10GB VRAM)
+- Download fp32 bento (for CPU or GPU with more than 10GB VRAM)
 
   ```bash
   curl -O https://s3.us-west-2.amazonaws.com/bentoml.com/stable_diffusion_bentoml/sd_fp32.bento && bentoml import ./sd_fp32.bento
   ```
 
-- download fp16 bento (for GPU with less than 10GB VRAM)
+- Download fp16 bento (for GPU with less than 10GB VRAM)
 
   ```bash
   curl -O https://s3.us-west-2.amazonaws.com/bentoml.com/stable_diffusion_bentoml/sd_fp16.bento && bentoml import ./sd_fp16.bento
@@ -140,6 +140,18 @@ bentoctl generate -f deployment_config.yaml
 Build the Docker image and push to AWS ECR.
 ```bash
 bentoctl build -b stable_diffusion_fp32:latest
+
+🚀 Image pushed!
+✨ generated template files.
+  - ./bentoctl.tfvars
+  - ./startup_script.sh
+  
+There is also an experimental command that you can use.
+To create the resources specifed run this after the build command.
+$ bentoctl apply
+
+To cleanup all the resources created and delete the registry run
+$ bentoctl destroy
 ```
 
 Apply the Terraform files to deploy to AWS EC2. Head over to the endpoint URL displayed at the end and you can see your Stable Diffusion service is up and running. Run some test prompts to make sure everything is working.
