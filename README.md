@@ -158,6 +158,13 @@ Apply the Terraform files to deploy to AWS EC2. Head over to the endpoint URL di
 
 ```bash
 bentoctl apply -f deployment_config.yaml
+
+Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+ec2_instance_status = "running"
+endpoint = "http://53.183.151.211"
 ```
 
 Finally, delete the deployment if the Stable Diffusion BentoML service is no longer needed.
