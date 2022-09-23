@@ -7,18 +7,26 @@
 [Stable Diffusion](https://stability.ai/blog/stable-diffusion-public-release) is an open-source text-to-image model released by stability.ai. It enables you to generate creative arts from natural language prompts in just seconds. Follow the steps in this repository to create a production-ready Stable Diffusion service with BentoML and deploy it to AWS EC2.
 
 
-## Download and Serve the Pre-built Stable Diffusion Bento
+## Prepare the Environment
 
 If you don't wish to build the bento from scratch, feel free to download one of the pre-built bentos.
 
 Clone repository and install dependencies:
 
-	```bash
-	git clone https://github.com/bentoml/stable-diffusion-bentoml.git && cd stable-diffusion-bentoml
-	python3 -m venv venv && . venv/bin/activate
-	pip install -U pip
-	pip install -r requirements.txt
-	```
+```bash
+git clone https://github.com/bentoml/stable-diffusion-bentoml.git && cd stable-diffusion-bentoml
+python3 -m venv venv && . venv/bin/activate
+pip install -U pip
+pip install -r requirements.txt
+```
+
+🎉 Environment is ready!
+
+## Create the Stable Diffusion Bento
+
+Here you can choose to either download pre-built Stable Diffusion bentos or build bentos from the Stable Diffusion models.
+
+### Download Pre-built Stable Diffusion Bentos
 
 - download fp32 bento (for CPU or GPU with more than 10GB VRAM)
 
@@ -32,20 +40,9 @@ Clone repository and install dependencies:
   curl -O https://s3.us-west-2.amazonaws.com/bentoml.com/stable_diffusion_bentoml/sd_fp16.bento && bentoml import ./sd_fp16.bento
   ```
 
-Then you can jump to "Deploy the Stable Diffusion Bento to EC2" section and deploy the pre-built bento to an EC2 instance.
+🎉 The Stable Diffusion bento is imported. You can advance to the "Deploy the Stable Diffusion Bento to EC2" section.
 
-Else, follow the steps below to build the Stable Diffusion bentos.
-
-## Build the Stable Diffusion Bento
-
-Clone repository and install dependencies:
-
-	```bash
-	git clone https://github.com/bentoml/stable-diffusion-bentoml.git && cd stable-diffusion-bentoml
-	python3 -m venv venv && . venv/bin/activate
-	pip install -U pip
-	pip install -r requirements.txt
-	```
+### Build from Stable Diffusion Models
 
 Choose a Stable Diffusion model
 
@@ -102,8 +99,21 @@ Build a bento:
 
 ```bash
 bentoml build
+
+Building BentoML service "stable_diffusion_fp32:abclxar26s44kcvj" from build context "/Users/ssheng/github/stable-diffusion-bentoml/fp32"
+Locking PyPI package versions..
+
+██████╗░███████╗███╗░░██╗████████╗░█████╗░███╗░░░███╗██╗░░░░░
+██╔══██╗██╔════╝████╗░██║╚══██╔══╝██╔══██╗████╗░████║██║░░░░░
+██████╦╝█████╗░░██╔██╗██║░░░██║░░░██║░░██║██╔████╔██║██║░░░░░
+██╔══██╗██╔══╝░░██║╚████║░░░██║░░░██║░░██║██║╚██╔╝██║██║░░░░░
+██████╦╝███████╗██║░╚███║░░░██║░░░╚█████╔╝██║░╚═╝░██║███████╗
+╚═════╝░╚══════╝╚═╝░░╚══╝░░░╚═╝░░░░╚════╝░╚═╝░░░░░╚═╝╚══════╝
+
+Successfully built Bento(tag="stable_diffusion_fp32:abclxar26s44kcvj")
 ```
 
+🎉 The Stable Diffusion bento has been built! You can advance to the "Deploy the Stable Diffusion Bento to EC2" section.
 
 ## Deploy the Stable Diffusion Bento to EC2
 
