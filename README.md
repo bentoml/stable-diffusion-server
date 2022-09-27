@@ -129,6 +129,7 @@ The deployment has already been configured for you in the [deployment_config.yam
 
 Generate the Terraform files.
 ```bash
+# In the /bentoctl directory
 bentoctl generate -f deployment_config.yaml
 
 ✨ generated template files.
