@@ -85,7 +85,7 @@ Run and test the BentoML service:
 - Bring up the BentoML service with the following command.
 
 	```bash
-	BENTO_CONFIG=configuration.yaml bentoml serve service:svc --production
+	BENTOML_CONFIG=configuration.yaml bentoml serve service:svc --production
 	```
 
 - Then you can run one of the scripts to test the service.
