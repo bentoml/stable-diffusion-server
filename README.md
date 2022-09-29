@@ -140,7 +140,7 @@ bentoctl generate -f deployment_config.yaml
 
 Build the Docker image and push to AWS ECR.
 ```bash
-bentoctl build -b stable_diffusion_fp32:latest
+bentoctl build -b stable_diffusion_fp32:latest -f deployment_config.yaml
 
 🚀 Image pushed!
 ✨ generated template files.
