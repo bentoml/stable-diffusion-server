@@ -107,11 +107,15 @@ stable_diffusion_runner = bentoml.Runner(StableDiffusionRunnable, name='stable_d
 
 svc = bentoml.Service("stable_diffusion_fp32", runners=[stable_diffusion_runner])
 
-@svc.api(input=JSON(), output=Image())
+output_spec = Multipart(image=Image(), input_data=JSON())
+
+@svc.api(input=JSON(), output=output_spec)
 def txt2img(input_data):
-    return stable_diffusion_runner.txt2img.run(input_data)
+    image = stable_diffusion_runner.txt2img.run(input_data)
+    return {"image": image, "input_data": input_data}
 
 img2img_input_spec = Multipart(img=Image(), data=JSON())
-@svc.api(input=img2img_input_spec, output=Image())
+@svc.api(input=img2img_input_spec, output=output_spec)
 def img2img(img, data):
-    return stable_diffusion_runner.img2img.run(img, data)
+    image = stable_diffusion_runner.img2img.run(img, data)
+    return {"image": image, "input_data": data}
