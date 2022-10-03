@@ -32,27 +32,14 @@ class StableDiffusionRunnable(bentoml.Runnable):
         ).to(self.device)
 
     @bentoml.Runnable.method(batchable=False, batch_dim=0)
-    def txt2img(self, input_data):
-        prompt = input_data["prompt"]
-        guidance_scale = input_data.get('guidance_scale', 7.5)
-        height = input_data.get('height', 512)
-        width = input_data.get('width', 512)
-        num_inference_steps = input_data.get('num_inference_steps', 50)
-        seed = input_data.get('seed', None)
-        generator = None if seed is None else torch.Generator().manual_seed(seed)
-        with autocast(self.device):
-            with ExitStack() as stack:
-                if self.device == "cuda":
-                    stack.enter_context(torch.cuda.amp.autocast())
-                img = self.txt2img_pipe(
-                    prompt,
-                    guidance_scale=guidance_scale,
-                    height=height,
-                    width=width,
-                    num_inference_steps=num_inference_steps,
-                    generator=generator,
-                )
-        return img
+    def txt2img(self, data):
+        prompt = data["prompt"]
+        guidance_scale = data.get('guidance_scale', 7.5)
+        height = data.get('height', 512)
+        width = data.get('width', 512)
+        num_inference_steps = data.get('num_inference_steps', 50)
+        generator = torch.Generator()
+        generator.manual_seed(data.get('seed'))
 
         with ExitStack() as stack:
             if self.device != "cpu":
@@ -88,7 +75,6 @@ class StableDiffusionRunnable(bentoml.Runnable):
         generator = torch.Generator()
         generator.manual_seed(data.get('seed'))
 
-        # prompt = [prompt, prompt]
         with ExitStack() as stack:
             if self.device != "cpu":
                 _ = stack.enter_context(autocast(self.device))
@@ -126,13 +112,13 @@ class Txt2ImgInput(BaseModel):
     seed: int = None
 
 @svc.api(input=JSON(pydantic_model=Txt2ImgInput), output=output_spec)
-def txt2img(input_data, context):
-    input_data = input_data.dict()
-    input_data['seed'] = generate_seed_if_needed(input_data['seed'])
-    image = stable_diffusion_runner.txt2img.run(input_data)
-    for i in input_data:
-        context.response.headers.append(i, str(input_data[i]))
-    return {"image": image, "input_data": input_data}
+def txt2img(data, context):
+    data = data.dict()
+    data['seed'] = generate_seed_if_needed(data['seed'])
+    image = stable_diffusion_runner.txt2img.run(data)
+    for i in data:
+        context.response.headers.append(i, str(data[i]))
+    return {"image": image, "input_data": data}
 
 class Img2ImgInput(BaseModel):
     prompt: str
@@ -142,7 +128,6 @@ class Img2ImgInput(BaseModel):
     seed: int = None
 
 img2img_input_spec = Multipart(img=Image(), data=JSON(pydantic_model=Img2ImgInput))
-#@svc.api(input=img2img_input_spec, output=output_spec)
 @svc.api(input=img2img_input_spec, output=Image())
 def img2img(img, data, context):
     data = data.dict()
