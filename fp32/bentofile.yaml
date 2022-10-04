@@ -10,6 +10,7 @@ python:
     - transformers
     - diffusers
     - ftfy
+    - pydantic
 docker:
     distro: debian
     cuda_version: "11.6.2"
