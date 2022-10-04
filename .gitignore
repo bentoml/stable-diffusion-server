@@ -129,3 +129,5 @@ output.jpg
 */terraform.tfstate*
 */startup_script.sh
 */main.tf
+# ignore downloads bento
+*.bento
