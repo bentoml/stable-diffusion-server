@@ -95,8 +95,6 @@ stable_diffusion_runner = bentoml.Runner(StableDiffusionRunnable, name='stable_d
 
 svc = bentoml.Service("stable_diffusion_fp32", runners=[stable_diffusion_runner])
 
-output_spec = Multipart(image=Image(), input_data=JSON())
-
 def generate_seed_if_needed(seed):
     if seed is None:
         generator = torch.Generator()
@@ -111,14 +109,14 @@ class Txt2ImgInput(BaseModel):
     num_inference_steps: int = 50
     seed: int = None
 
-@svc.api(input=JSON(pydantic_model=Txt2ImgInput), output=output_spec)
+@svc.api(input=JSON(pydantic_model=Txt2ImgInput), output=Image())
 def txt2img(data, context):
     data = data.dict()
     data['seed'] = generate_seed_if_needed(data['seed'])
     image = stable_diffusion_runner.txt2img.run(data)
     for i in data:
         context.response.headers.append(i, str(data[i]))
-    return {"image": image, "input_data": data}
+    return image
 
 class Img2ImgInput(BaseModel):
     prompt: str
