@@ -34,8 +34,6 @@ class StableDiffusionRunnable(bentoml.Runnable):
         height = input_data.get('height', 512)
         width = input_data.get('width', 512)
         num_inference_steps = input_data.get('num_inference_steps', 50)
-        seed = input_data.get('seed', None)
-        generator = None if seed is None else torch.Generator().manual_seed(seed)
         with autocast(self.device):
             images = self.txt2img_pipe(
                 prompt=prompt,
@@ -43,7 +41,6 @@ class StableDiffusionRunnable(bentoml.Runnable):
                 height=height,
                 width=width,
                 num_inference_steps=num_inference_steps,
-                generator=generator,
             ).images
             image = images[0]
             return image
@@ -65,8 +62,6 @@ class StableDiffusionRunnable(bentoml.Runnable):
         strength = data.get('strength', 0.8)
         guidance_scale = data.get('guidance_scale', 7.5)
         num_inference_steps = data.get('num_inference_steps', 50)
-        seed = data.get('seed', None)
-        generator = None if seed is None else torch.Generator().manual_seed(seed)
         with autocast(self.device):
             images = self.img2img_pipe(
                 prompt=prompt,
@@ -74,7 +69,6 @@ class StableDiffusionRunnable(bentoml.Runnable):
                 strength=strength,
                 guidance_scale=guidance_scale,
                 num_inference_steps=num_inference_steps,
-                generator=generator,
             ).images
             image = images[0]
             return image
@@ -84,15 +78,11 @@ stable_diffusion_runner = bentoml.Runner(StableDiffusionRunnable, name='stable_d
 
 svc = bentoml.Service("stable_diffusion_fp16", runners=[stable_diffusion_runner])
 
-output_spec = Multipart(image=Image(), input_data=JSON())
-
-@svc.api(input=JSON(), output=output_spec)
+@svc.api(input=JSON(), output=Image())
 def txt2img(input_data):
-    image = stable_diffusion_runner.txt2img.run(input_data)
-    return {"image": image, "input_data": input_data}
+    return stable_diffusion_runner.txt2img.run(input_data)
 
 img2img_input_spec = Multipart(img=Image(), data=JSON())
-@svc.api(input=img2img_input_spec, output=output_spec)
+@svc.api(input=img2img_input_spec, output=Image())
 def img2img(img, data):
-    image = stable_diffusion_runner.img2img.run(img, data)
-    return {"image": image, "input_data": data}
+    return stable_diffusion_runner.img2img.run(img, data)
