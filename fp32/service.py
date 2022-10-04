@@ -38,7 +38,7 @@ class StableDiffusionRunnable(bentoml.Runnable):
         height = data.get('height', 512)
         width = data.get('width', 512)
         num_inference_steps = data.get('num_inference_steps', 50)
-        generator = torch.Generator()
+        generator = torch.Generator(self.device)
         generator.manual_seed(data.get('seed'))
 
         with ExitStack() as stack:
@@ -72,7 +72,7 @@ class StableDiffusionRunnable(bentoml.Runnable):
         strength = data.get('strength', 0.8)
         guidance_scale = data.get('guidance_scale', 7.5)
         num_inference_steps = data.get('num_inference_steps', 50)
-        generator = torch.Generator()
+        generator = torch.Generator(self.device)
         generator.manual_seed(data.get('seed'))
 
         with ExitStack() as stack:
