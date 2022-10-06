@@ -9,6 +9,7 @@ from pydantic import BaseModel
 import bentoml
 from bentoml.io import Image, JSON, Multipart
 
+
 class StableDiffusionRunnable(bentoml.Runnable):
     SUPPORTED_RESOURCES = ("nvidia.com/gpu", "cpu")
     SUPPORTS_CPU_MULTI_THREADING = True
@@ -40,6 +41,7 @@ class StableDiffusionRunnable(bentoml.Runnable):
         num_inference_steps = data.get('num_inference_steps', 50)
         generator = torch.Generator(self.device)
         generator.manual_seed(data.get('seed'))
+        negative_prompt = data.get('negative_prompt', None)
 
         with ExitStack() as stack:
             if self.device != "cpu":
@@ -51,7 +53,8 @@ class StableDiffusionRunnable(bentoml.Runnable):
                 height=height,
                 width=width,
                 num_inference_steps=num_inference_steps,
-                generator=generator
+                generator=generator,
+                negative_prompt=negative_prompt,
             ).images
             image = images[0]
             return image
@@ -74,6 +77,7 @@ class StableDiffusionRunnable(bentoml.Runnable):
         num_inference_steps = data.get('num_inference_steps', 50)
         generator = torch.Generator(self.device)
         generator.manual_seed(data.get('seed'))
+        negative_prompt = data.get('negative_prompt', None)
 
         with ExitStack() as stack:
             if self.device != "cpu":
@@ -86,6 +90,7 @@ class StableDiffusionRunnable(bentoml.Runnable):
                 guidance_scale=guidance_scale,
                 num_inference_steps=num_inference_steps,
                 generator=generator,
+                negative_prompt=negative_prompt,
             ).images
             image = images[0]
             return image
@@ -97,7 +102,7 @@ svc = bentoml.Service("stable_diffusion_fp32", runners=[stable_diffusion_runner]
 
 def generate_seed_if_needed(seed):
     if seed is None:
-        generator = torch.Generator()
+        generator = torch.Generator('cpu')
         seed = torch.seed()
     return seed
 
@@ -107,6 +112,7 @@ class Txt2ImgInput(BaseModel):
     height: int = 512
     width: int = 512
     num_inference_steps: int = 50
+    negative_prompt: [str] = None
     seed: int = None
 
 @svc.api(input=JSON(pydantic_model=Txt2ImgInput), output=Image())
@@ -123,6 +129,7 @@ class Img2ImgInput(BaseModel):
     strength: float = 0.8
     guidance_scale: float = 7.5
     num_inference_steps: int = 50
+    negative_prompt: [str] = None
     seed: int = None
 
 img2img_input_spec = Multipart(img=Image(), data=JSON(pydantic_model=Img2ImgInput))
