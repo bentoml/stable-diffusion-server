@@ -1,6 +1,6 @@
 bentoml>=1.0.0
 torch
 transformers
-diffusers
+diffusers>=0.5.0
 ftfy
 pydantic
