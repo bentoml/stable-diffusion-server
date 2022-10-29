@@ -1,4 +1,5 @@
 from contextlib import ExitStack
+from starlette.middleware.cors import CORSMiddleware
 
 import torch
 from torch import autocast
@@ -139,6 +140,8 @@ class StableDiffusionRunnable(bentoml.Runnable):
 stable_diffusion_runner = bentoml.Runner(StableDiffusionRunnable, name='stable_diffusion_runner', max_batch_size=10)
 
 svc = bentoml.Service("stable_diffusion_fp32", runners=[stable_diffusion_runner])
+svc.add_asgi_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"], expose_headers=["*"])
+
 
 def generate_seed_if_needed(seed):
     if seed is None:
