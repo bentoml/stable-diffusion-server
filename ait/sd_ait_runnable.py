@@ -1,4 +1,5 @@
 import torch
+from torch import autocast
 
 
 import bentoml

@@ -75,7 +75,7 @@ class SDAITPipeline(StableDiffusionPipeline):
         noise_pred = ys[0].permute((0, 3, 1, 2)).float()
         return noise_pred
 
-    def clip_inference(self, input_ids, seqlent=64):
+    def clip_inference(self, input_ids, seqlen=64):
         exe_module = self.clip_ait_exe
         bs = input_ids.shape[0]
         position_ids = torch.arange(seqlen).expand((bs, -1)).cuda()
@@ -258,6 +258,7 @@ class SDAITPipeline(StableDiffusionPipeline):
         image = self.vae_inference(latents)
 
         image = (image / 2 + 0.5).clamp(0, 1)
+        # we always cast to float32 as this does not cause significant overhead and is compatible with bfloa16
         image = image.cpu().permute(0, 2, 3, 1).numpy()
 
         # run safety checker
