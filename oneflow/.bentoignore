@@ -1,6 +1,3 @@
-# Oneflow logs
-log/
-
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -117,20 +114,3 @@ typings
 
 # test files
 catboost_info
-
-# models
-*/models/*/*
-*/*.zip
-*/*.tgz
-
-# output
-output.jpg
-
-*/.terraform/
-*/.terraform.lock.hcl
-*/bentoctl.tfvars
-*/terraform.tfstate*
-*/startup_script.sh
-*/main.tf
-# ignore downloads bento
-*.bento

@@ -1,0 +1,8 @@
+bentoml>=1.0.0
+-f https://staging.oneflow.info/branch/release/debug-sd-conv-gn-geglu/cu112
+oneflow==0.8.1+cu112.git.5610333
+torch
+-e git+https://github.com/Oneflow-Inc/transformers.git@f7a52b04a0035aaf4b48c999a170ef630d3af9b6#egg=transformers
+-e git+https://github.com/Oneflow-Inc/diffusers.git@015a9711cf3f1e6152df41293c3a00b1535f3c2a#egg=diffusers[oneflow]
+ftfy
+pydantic
