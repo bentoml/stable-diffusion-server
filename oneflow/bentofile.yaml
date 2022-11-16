@@ -9,5 +9,7 @@ python:
 docker:
     distro: debian
     cuda_version: "11.2.2"
+    system_packages:
+      - git
     env:
       BENTOML_CONFIG: "src/configuration.yaml"
