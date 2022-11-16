@@ -3,9 +3,6 @@ import time
 import oneflow as torch
 from oneflow import autocast
 
-from diffusers import OneFlowStableDiffusionPipeline as StableDiffusionPipeline
-from diffusers import OneFlowStableDiffusionImg2ImgPipeline as StableDiffusionImg2ImgPipeline
-
 import bentoml
 from bentoml.io import Image, JSON, Multipart
 
@@ -14,6 +11,10 @@ class StableDiffusionRunnable(bentoml.Runnable):
     SUPPORTS_CPU_MULTI_THREADING = True
 
     def __init__(self):
+
+        from diffusers import OneFlowStableDiffusionPipeline as StableDiffusionPipeline
+        from diffusers import OneFlowStableDiffusionImg2ImgPipeline as StableDiffusionImg2ImgPipeline
+
         model_id = "./models/v1_4_fp16"
         self.device = "cuda"
 
