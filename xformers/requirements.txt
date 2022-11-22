@@ -1,0 +1,8 @@
+bentoml>=1.0.0
+torch --extra-index-url https://download.pytorch.org/whl/cu116
+transformers
+diffusers>=0.7
+accelerate
+triton
+ftfy
+pydantic

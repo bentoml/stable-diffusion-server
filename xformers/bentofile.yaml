@@ -1,0 +1,23 @@
+service: "service.py:svc"
+include:
+  - "service.py"
+  - "requirements.txt"
+  - "models/v1_4_fp16"
+  - "configuration.yaml"
+python:
+  packages:
+    - "torch --extra-index-url https://download.pytorch.org/whl/cu116"
+    - transformers
+    - "diffusers>=0.7"
+    - accelerate
+    - triton
+    - ftfy
+    - pydantic
+  wheels:
+    - "./wheels/xformers-0.0.14.dev0-cp38-cp38-linux_x86_64.whl"
+docker:
+  distro: debian
+  python_version: "3.8"
+  cuda_version: "11.6.2"
+  env:
+    BENTOML_CONFIG: "src/configuration.yaml"
