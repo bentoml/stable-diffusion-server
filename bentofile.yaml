@@ -1,0 +1,8 @@
+service: "service.py:svc"
+include:
+    - "service.py"
+python:
+    requirements_txt: "./requirements.txt"
+docker:
+    distro: debian
+    cuda_version: "11.6"

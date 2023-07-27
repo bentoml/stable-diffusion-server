@@ -1,6 +1,9 @@
-bentoml>=1.0.0
-torch
+diffusers>=0.13.1
+bentoml[io-image]>=1.0.22
+accelerate
 transformers
-diffusers
-ftfy
+xformers
+triton; sys_platform == "linux"
 pydantic
+invisible_watermark
+safetensors
