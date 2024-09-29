@@ -1,3 +1,7 @@
+# ⚠️ Important Notice
+
+This project is deprecated. To run and deploy the latest Stable Diffusion models, see [the BentoDiffusion repo](https://github.com/bentoml/BentoDiffusion).
+
 # Serving Stable Diffusion with BentoML
 
 <p align="center">
